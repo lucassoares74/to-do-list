@@ -11,13 +11,14 @@ setInterval(() => {
     console.log("condicional")
   }
   console.log("temporizador")
+  _salvarcheckbox()
 }, 1000); // verifica a cada 1 segundo
 
 function _criar_div_tarefas($val){
     const $div_tarefas = document.getElementById("tarefas");
     const $nova_div = document.createElement('div');
     $nova_div.id = "item";
-    $nova_div.innerHTML = `<input class="checkbox" type="checkbox" />
+    $nova_div.innerHTML = `<input id="checkid" class="checkbox" type="checkbox" onclick="_riscar(this)" />
           <h3 id="tarefa_texto">${$val}</h3>
           <div id="botoe">
           <button class="remover" onclick="_remover_div_tarefas(this)" >Remover</button>
@@ -48,7 +49,6 @@ function _adicionar_items(){
         $tart.textContent =""
     };
     const $form = document.getElementById("entrada").value
-    debugger
     _criar_div_tarefas($form)
     salvarLayout()
 }
@@ -69,3 +69,32 @@ function salvarLayout() {
 
     // Restaurar automaticamente ao carregar a página
     window.addEventListener("load", restaurarLayout);
+
+    function _riscar(ris){
+        if (ris.checked) {
+            const $riscar = ris.parentElement
+            const $tes = $riscar.querySelector("h3")
+            $tes.style.textDecoration = "line-through";
+        } else {
+            console.log("Não está marcada.");
+            const $riscar = ris.parentElement
+            const $tes = $riscar.querySelector("h3")
+            $tes.style.textDecoration = "none";
+        }
+        salvarLayout()
+    }
+
+    
+    function _salvarcheckbox(){
+       $che = document.querySelectorAll("#item");
+       for (const el of $che) {
+         let $esse = el.querySelector("#tarefa_texto")
+         if($esse.style.textDecoration =="line-through"){
+            $chec = el.querySelector("#checkid")
+            $chec.checked = true;
+         }
+        }
+
+    }
+
+    
